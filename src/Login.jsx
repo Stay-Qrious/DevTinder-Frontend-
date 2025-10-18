@@ -1,9 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import { setUser } from "./utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
@@ -14,6 +17,9 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log("Response:", res.data);
+      setUser(res.data);
+      return navigate("/");
+
     } catch (err) {
       console.error("Login failed:", err);
     }
