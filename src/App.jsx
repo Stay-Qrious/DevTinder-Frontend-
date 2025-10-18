@@ -1,23 +1,27 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Body from "./Body";
-import Login from "./Login";
-import Profile from "./Profile";
+import Body from "./components/Body";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import store from "./utils/store";
+import Feed from "./components/Feed";
+import Incorrect from "./components/Incorrect";
 
 function App() {
   return (
-    <div> Hiiii</div>
-    // <Provider store={store}>
-    //   <BrowserRouter basename="/">
-    //     <Routes>
-    //       <Route path="/" element={<Body />}>
-    //         <Route path="login" element={<Login />} />
-    //         <Route path="profile" element={<Profile />} />
-    //       </Route>
-    //     </Routes>
-    //   </BrowserRouter>
-    // </Provider>
+
+    <Provider store={store}>
+      <BrowserRouter basename="/">
+        <Routes>
+          <Route path="/" element={<Body />}>
+            <Route path="feed" element={<Feed />} />
+            <Route path="login" element={<Login />} />
+            <Route path="incorrect" element={<Incorrect />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
