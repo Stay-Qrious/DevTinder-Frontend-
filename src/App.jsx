@@ -7,16 +7,17 @@ import store from "./utils/store";
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter basename="/">
-        <Routes>
-          <Route path="/" element={<Body />}>
-            <Route path="login" element={<Login />} />
-            <Route path="profile" element={<Profile />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <div> Hiiii</div>
+    // <Provider store={store}>
+    //   <BrowserRouter basename="/">
+    //     <Routes>
+    //       <Route path="/" element={<Body />}>
+    //         <Route path="login" element={<Login />} />
+    //         <Route path="profile" element={<Profile />} />
+    //       </Route>
+    //     </Routes>
+    //   </BrowserRouter>
+    // </Provider>
   );
 }
 
