@@ -8,6 +8,8 @@ import { BaseURL } from "../utils/constants"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
+axios.defaults.withCredentials = true;
+
 const Body = () => {
 
     const dispatch = useDispatch();
@@ -15,16 +17,14 @@ const Body = () => {
     const fetchUser = async () => {
         try {
             const res = await axios.get(BaseURL + "/profile/view", { withCredentials: true });
-            dispatch(setUser(res.data.data));
-        }
-        catch (e) {
-            if (e.status === 401) {
+            dispatch(setUser(res.data));
+        } catch (e) {
+            if (e.response?.status === 401) {
                 Navigate("/login");
             }
-            console.log(e.message);
         }
-
     }
+
 
     useEffect(() => {
         fetchUser();
