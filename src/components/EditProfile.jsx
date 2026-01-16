@@ -26,7 +26,8 @@ const EditProfile = ({user}) => {
                 about,
                 photoUrl
             }, { withCredentials: true });
-            dispatch(setUser(res.data));
+            console.log(res.data);  
+            dispatch(setUser(res.data.data));
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
             setError(null);
