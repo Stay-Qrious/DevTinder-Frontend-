@@ -1,7 +1,7 @@
-import React from 'react'
+
 
 const UserCard = ({ user }) => {
-  const { firstName, lastName, photoUrl, about } = user;
+  const { firstName, lastName, photoUrl, about ,age } = user;
 
   return (
     <div className="card w-96 bg-base-100 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-2xl overflow-hidden border border-gray-200">
@@ -22,6 +22,9 @@ const UserCard = ({ user }) => {
       <div className="card-body p-5">
         <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
           {about || "This user hasn’t written anything yet."}
+        </p>
+         <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+          {age || "Age not specified."}
         </p>
 
         <div className="card-actions justify-center mt-6">
