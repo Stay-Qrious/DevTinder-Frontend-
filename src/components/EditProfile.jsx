@@ -27,7 +27,8 @@ const EditProfile = ({ user }) => {
       setTimeout(() => setShowToast(false), 3000);
       setError(null);
     } catch (e) {
-      setError(e.response?.data?.message || "Something went wrong");
+      console.log(e);
+      setError(e.response.data || "Something went wrong");
     }
   };
 

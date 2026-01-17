@@ -1,37 +1,68 @@
-import React, { use, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { BaseURL } from '../utils/constants'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setFeed } from '../utils/feedSlice'
-import { useSelector } from 'react-redux'
 import UserCard from './UserCard'
 
 const Feed = () => {
   const dispatch = useDispatch();
+  
+  // Get feed and user from store
   const feed = useSelector((store) => store.feed);
+  const user = useSelector((store) => store.user);
+
   const getFeed = async () => {
-    if(feed) return;
+    // If we already have items in the feed, don't fetch again
+    if (feed && feed.length > 0) return;
+
     try {
       const res = await axios.get(BaseURL + "/feed", { withCredentials: true });
-      dispatch(setFeed(res.data));
+      // Dispatch the data array to the store
+      dispatch(setFeed(res.data?.data || res.data));
     }
     catch (e) {
-      console.log(e.message);
+      console.error("Error fetching feed:", e.message);
     }
-
   }
 
   useEffect(() => {
-    getFeed();
-  }, [])
+    // We only fetch the feed if a user is actually logged in
+    if (user) {
+      getFeed();
+    }
+  }, [user]); // Trigger whenever 'user' state changes (login/signup)
 
- if (!feed) return <div>No feed data</div>
- if(feed.length === 0) return <div className="flex justify-center my-10"><h1 className="font-bold text-2xl text-gray-500">No Users Found in Feed</h1></div>
+  // 1. If feed hasn't been fetched yet
+  if (!feed) {
+    return (
+      <div className="flex justify-center my-40">
+        <span className="loading loading-dotted loading-lg text-indigo-500"></span>
+      </div>
+    );
+  }
+
+  // 2. If feed was fetched but is empty
+  if (feed.length === 0) {
+    return (
+      <div className="flex justify-center my-20">
+        <div className="text-center p-10 bg-[#1e293b] rounded-3xl border border-slate-700 shadow-xl">
+          <h1 className="font-bold text-2xl text-white mb-2">No More Developers!</h1>
+          <p className="text-slate-400">You've seen everyone in your area. Check back later.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Show the first user in the feed
   return (
-    feed && (<div className="flex justify-center my-10" >
+    <div className="flex justify-center my-10">
+      {/* We pass a handler to the card so it can trigger the 
+         next card by updating the Redux store 
+      */}
       <UserCard user={feed[0]} />
-    </div>)
-  )
+    </div>
+  );
 }
 
-export default Feed
+export default Feed;
