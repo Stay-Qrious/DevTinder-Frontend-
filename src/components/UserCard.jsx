@@ -1,5 +1,23 @@
+import { BaseURL } from "../utils/constants";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { removeFeed } from "../utils/feedSlice";
+
 const UserCard = ({ user }) => {
   const { firstName, lastName, photoUrl, about, age, skills } = user;
+  const dispatch = useDispatch();
+
+  const handleSendRequest = async(status) => {
+    try{
+      const res = await axios.post(BaseURL + "/request/send/" + status + "/" + user._id, {}, { withCredentials: true });
+      dispatch(removeFeed(user._id));
+
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+  if(!user) return <div>No user data</div>
 
   return (
     <div className="card w-full max-w-sm bg-[#1e293b] shadow-2xl rounded-3xl overflow-hidden border border-slate-700 min-h-[550px]">
@@ -48,8 +66,8 @@ const UserCard = ({ user }) => {
 
         {/* Consistent Actions */}
         <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-700/50">
-          <button className="btn btn-outline btn-sm border-slate-600 text-slate-400 rounded-xl hover:bg-slate-700">Ignore</button>
-          <button className="btn btn-primary btn-sm rounded-xl">Interested</button>
+          <button className="btn btn-outline btn-sm border-slate-600 text-slate-400 rounded-xl hover:bg-slate-700" onClick={() => handleSendRequest("ignored")}>Ignore</button>
+          <button className="btn btn-primary btn-sm rounded-xl" onClick={() => handleSendRequest("interested")}>Interested</button>
         </div>
       </div>
     </div>
